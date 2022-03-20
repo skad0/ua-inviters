@@ -1,0 +1,16 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[*.{js,json,ts,tsx,svelte,jsx,cjs}]
+charset = utf-8
+indent_style = tab
+indent_size = tab
+tab_size = 2
+
+[*.{js,json,yml,yaml}]
+indent_style = space
+indent_size = 2
+root = true

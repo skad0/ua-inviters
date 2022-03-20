@@ -1,5 +1,5 @@
 {
-  "name": "sveltetron-9000",
+  "name": "ui-inviters",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
