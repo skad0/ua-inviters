@@ -1,3 +1,5 @@
+import { parseInt, isNumber } from "lodash-es";
+
 export interface Questionnaire {
     questions: Question[];
 }
@@ -12,7 +14,8 @@ export interface RefugeeData {
 export interface Question {
     name: string;
     message: string;
-    validator?: (input: string) => boolean;
+    validate?: (input: any) => boolean;
+    parse?: (input: string) => any;
 }
 
 export const RefugeeQuestionnaire: Questionnaire = {
@@ -22,15 +25,17 @@ export const RefugeeQuestionnaire: Questionnaire = {
             message: "Укажите ваше имя",
         },
         {
-            name: "number_of_people",
+            name: "people_amount",
             message: "Сколько человек поедет с вами в Израиль?",
+            parse: parseInt,
+            validate: (input: Number): boolean => input > 0,
         },
         {
             name: "location",
             message: "Где вы находитесь сейчас?",
         },
         {
-            name: "contact_info",
+            name: "other_contacts",
             message: "Как с вами связаться?"
         }
     ]

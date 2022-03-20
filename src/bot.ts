@@ -19,7 +19,7 @@ function SessionMiddleware(options: { sessionStore: Map<number, any> }): Middlew
         const fromId = ctx.from?.id
         let session = sessionStore.get(fromId);
         if (!session) {
-            session = { messageCount: 0, refugeeData: {} };
+            session = { refugeeData: {} };
             sessionStore.set(fromId, session);
         }
 
@@ -51,7 +51,18 @@ function initBot(bot: Telegraf) {
         } else {
             const currentQuestion = questions[session.currentQuestion];
             const refugeeData = session.refugeeData;
-            refugeeData[currentQuestion.name] = (<any>ctx.message).text;
+            const input = (<any>ctx.message).text;
+            let value = input;
+
+            if (currentQuestion.parse) {
+                value = currentQuestion.parse(value);
+            }
+
+            if (currentQuestion.validate && !currentQuestion.validate(value)) {
+                return ctx.reply(`Не можем распознать ваш ввод, попробуйте ответить еще раз.`)
+            }
+
+            refugeeData[currentQuestion.name] = value;
     
             console.log(ctx.session)
     
