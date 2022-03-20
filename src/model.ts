@@ -5,10 +5,13 @@ export interface Questionnaire {
 }
 
 export interface RefugeeData {
+    tg_id: number
+    tg_login: string
     name?: string
-    number_of_people?: string
+    people_amount?: string
     location?: string
-    contact_info?: string
+    other_contacts?: string
+    current_question?: number
 }
 
 export interface Question {

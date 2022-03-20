@@ -2,10 +2,11 @@ import { Context, MiddlewareFn, Telegraf } from "telegraf";
 import type { Update } from "telegraf/typings/core/types/typegram";
 import { RefugeeData, RefugeeQuestionnaire } from "./model";
 import db from "./db/db";
+import type { Knex } from "knex";
 
 interface SessionData {
     refugeeData: RefugeeData
-    currentQuestion?: number
+    knex?: Knex
 }
 
 interface SessionContext extends Context {
@@ -29,10 +30,33 @@ function SessionMiddleware(options: { sessionStore: Map<number, any> }): Middlew
     }
 }
 
-function initBot(bot: Telegraf) {
-    const sessionStore = new Map<number, any>();
+function DBSessionMiddleware(options: { sessionStore: Knex }): MiddlewareFn<Context<Update>> {
+    const { sessionStore: knex } = options;
 
-    bot.use(SessionMiddleware({ sessionStore: sessionStore }));
+    return async (ctx: SessionContext, next) => {
+        const fromId = ctx.from?.id;
+        const username = ctx.from?.username;
+
+        const count = await knex('refugees').where({ tg_id: fromId }).count().first();
+        console.log(count);
+
+        if (Number(count.count) == 0) {
+            await knex('refugees').insert({ tg_id: fromId, tg_login: username });
+        } else {
+            
+        }
+
+        const refugee = await knex('refugees').first('*').where({ tg_id: fromId});
+        const session = { refugeeData: refugee, knex: knex };
+        ctx.session = session;
+
+        console.log(session);
+        next();
+    }
+}
+
+function initBot(bot: Telegraf, middleware: MiddlewareFn<Context>) {
+    bot.use(middleware);
 
     bot.start((ctx) => ctx.reply('Welcome'));
     // bot.help((ctx) => ctx.reply('Send me a sticker'));
@@ -41,16 +65,19 @@ function initBot(bot: Telegraf) {
     
     bot.launch()
     
-    bot.on('message', (ctx: SessionContext) => {
+    bot.on('message', async (ctx: SessionContext) => {
         const session = ctx?.session;
+        const { refugeeData, knex } = session;
         const questions = RefugeeQuestionnaire.questions;
     
-        if (session.currentQuestion == undefined) {
-            session.currentQuestion = 0;
+        if (refugeeData.current_question == undefined) {
+            refugeeData.current_question = 0;
+            await knex('refugees').update({ current_question: refugeeData.current_question}).where({ tg_id: refugeeData.tg_id });
+
             return ctx.reply(questions[0].message);
         } else {
-            const currentQuestion = questions[session.currentQuestion];
-            const refugeeData = session.refugeeData;
+            const currentQuestion = questions[refugeeData.current_question];
+            
             const input = (<any>ctx.message).text;
             let value = input;
 
@@ -63,12 +90,15 @@ function initBot(bot: Telegraf) {
             }
 
             refugeeData[currentQuestion.name] = value;
-    
             console.log(ctx.session)
     
-            const nextQuestion = session.currentQuestion + 1;
+            const nextQuestion = refugeeData.current_question + 1;
+            await knex('refugees').update(refugeeData).where({ tg_id: refugeeData.tg_id });
+
             if (nextQuestion < questions.length) {
-                session.currentQuestion = nextQuestion;
+                refugeeData.current_question = nextQuestion;    
+                await knex('refugees').update({ current_question: refugeeData.current_question}).where({ tg_id: refugeeData.tg_id });
+
                 return ctx.reply(questions[nextQuestion].message);
             } else {
                 const formatted = questions.map(q => {
@@ -86,7 +116,11 @@ async function main() {
         await db.migrate.latest();
 
         const bot = new Telegraf(process.env.BOT_TOKEN);
-        initBot(bot);
+        //     const sessionStore = new Map<number, any>();
+        // const sessionMiddleware = SessionMiddleware({ sessionStore: sessionStore })
+        const sessionMiddleware = DBSessionMiddleware({ sessionStore: db });
+
+        initBot(bot, sessionMiddleware);
 
         // Enable graceful stop
         process.once('SIGINT', () => bot.stop('SIGINT'));
