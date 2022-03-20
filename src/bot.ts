@@ -1,5 +1,6 @@
 import { Context, MiddlewareFn, Telegraf } from "telegraf";
 import type { Update } from "telegraf/typings/core/types/typegram";
+import { RefugeeData, RefugeeQuestionnaire } from "./model";
 
 interface SessionData {
     messageCount: number
@@ -29,49 +30,6 @@ function SessionMiddleware(options?: any): MiddlewareFn<Context<Update>> {
 }
 
 
-interface RefugeeData {
-    name?: string
-    number_of_people?: string
-    location?: string
-    contact_info?: string
-}
-interface Question {
-    name: string;
-    message: string;
-    validator?: (input: string) => boolean;
-}
-
-interface Questionnaire {
-    questions: Question[];
-}
-
-const refugeeQuestionnaire: Questionnaire = {
-    questions: [
-        {
-            name: "name",
-            message: "Укажите ваше имя",
-        },
-        {
-            name: "number_of_people",
-            message: "Сколько человек поедет с вами в Израиль?",
-        },
-        {
-            name: "location",
-            message: "Где вы находитесь сейчас?",
-        },
-        {
-            name: "contact_info",
-            message: "Как с вами связаться?"
-        }
-    ]
-}
-
-const caretakerQuestionnaire: Questionnaire = {
-    questions: [
-
-    ]
-}
-
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.use(SessionMiddleware());
 
@@ -88,7 +46,7 @@ bot.on('message', (ctx: SessionContext) => {
 
     // ctx.reply(`messages sent: ${session.messageCount}`);
 
-    const questions = refugeeQuestionnaire.questions;
+    const questions = RefugeeQuestionnaire.questions;
 
     if (session.currentQuestion == undefined) {
         session.currentQuestion = 0;

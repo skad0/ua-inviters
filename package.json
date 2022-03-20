@@ -9,7 +9,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build-bot": "$(pnpm bin)/tsc -b",
-    "run-bot": "pnpm run build-bot && node src/bot.js"
+    "run-bot": "pnpm run build-bot && node --es-module-specifier-resolution=node dist/bot.js"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
