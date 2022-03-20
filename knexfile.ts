@@ -15,6 +15,7 @@ const config: { [key: string]: Knex.Config } = {
 		migrations: {
 			directory: __dirname + "/src/db/migrations",
 		},
+		debug: true,
 	},
 
 	production: {
