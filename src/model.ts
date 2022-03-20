@@ -36,7 +36,7 @@ export const RefugeeQuestionnaire: Questionnaire = {
     ]
 }
 
-const caretakerQuestionnaire: Questionnaire = {
+const hostQuestionnaire: Questionnaire = {
     questions: [
 
     ]

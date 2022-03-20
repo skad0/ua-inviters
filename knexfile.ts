@@ -13,7 +13,7 @@ const config: { [key: string]: Knex.Config } = {
 			max: 10,
 		},
 		migrations: {
-			directory: __dirname + "/src/db/migrations",
+			directory: `./src/db/migrations`,
 		},
 		debug: true,
 	},

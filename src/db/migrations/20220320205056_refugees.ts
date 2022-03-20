@@ -1,20 +1,21 @@
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-	return knex.schema.table("inviters", (table) => {
+	return knex.schema.createTable("refugees", (table) => {
 		table.increments("id").primary();
 		table.string("name").notNullable();
-		table.string("address").notNullable();
-		table.string("living_env").notNullable();
+		table.string("location").notNullable();
+		table.string("other_contacts").notNullable();
 		table.string("phone").notNullable();
 		table.boolean("has_animals").notNullable().defaultTo(false);
-		table.boolean("can_animals").notNullable().defaultTo(false);
-		table.boolean("vacant").notNullable().defaultTo(true);
+		table.integer("people_amount").notNullable().defaultTo(1);
+		table.text("additional_notes").defaultTo("");
 		table.bigInteger("tg_id").notNullable();
 		table.string("tg_login").notNullable();
+		table.boolean("is_invited").notNullable().defaultTo(false);
 	});
 }
 
 export async function down(knex: Knex): Promise<void> {
-	return knex.schema.dropTable("inviters");
+	return knex.schema.dropTable("refugees");
 }
