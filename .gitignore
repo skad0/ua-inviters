@@ -9,3 +9,4 @@ package-lock.json
 .vscode
 .svelte-kit
 postgres-data
+dist
