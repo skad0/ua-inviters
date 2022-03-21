@@ -6,6 +6,8 @@
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "start": "svelte-kit start",
+    "test:e2e:web": "pnpm playwright test --reporter=line",
+    "test:e2e:web:withReport": "pnpm playwright test --reporter=html",
     "build-bot": "$(pnpm bin)/tsc -b",
     "run-bot": "rm -rf dist && pnpm run build-bot && cd dist && node --trace-warnings --experimental-modules --es-module-specifier-resolution=node src/bot.js"
   },
