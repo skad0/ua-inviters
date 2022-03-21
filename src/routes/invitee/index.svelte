@@ -3,7 +3,7 @@
   import * as yup from "yup";
   import { validators } from "$lib/validators/invitee";
   import { RefugeeQuestionnaire } from "../../model";
-  import { modelKeyToFormKey } from "./_questionsMapper";
+  import { modelKeyToFormKey } from "$lib/utils/_questionsMapper";
 
   const initialValues = RefugeeQuestionnaire.questions.reduce(
     (values, question) => {
@@ -19,33 +19,54 @@
   const { form, errors, handleChange, handleSubmit } = createForm({
     initialValues,
     validationSchema: yup.object().shape(validators),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      console.log("dsdsds");
       console.log("submit", values);
     },
   });
+
+  const onW = (e) => {
+    console.log("tuta", e);
+    handleSubmit(e);
+  };
 </script>
 
-<form on:submit={handleSubmit}>
+<svelte:head>
+  <title>Получить помощь от граждан Израиля</title>
+</svelte:head>
+
+<h1 class="text-2xl mb-4">Оставить заявку на получение помощи</h1>
+
+<form on:submit={onW} class="flex flex-col">
   {#each RefugeeQuestionnaire.questions as question}
     {@const key = modelKeyToFormKey(question.name)}
-    <div class="form-control w-full max-w-xs">
+    {@const type = question.type === "checkbox" ? "checkbox" : "text"}
+    <div class="form-control w-full">
       <label class="label" for={key}>
         <span class="label-text">{question.message}</span>
       </label>
-      <input
-        id={key}
-        name={key}
-        type={question.type === "checkbox" ? "checkbox" : "text"}
-        placeholder=""
-        value={$form[key]}
-        onChange={handleChange}
-        onBlur={handleChange}
-        class={`${
-          question.type === "checkbox"
-            ? "checkbox"
-            : "input input-bordered w-full max-w-xs"
-        }`}
-      />
+      {#if type === "checkbox"}
+        <input
+          id={key}
+          name={key}
+          type="checkbox"
+          bind:value={$form[key]}
+          on:change={handleChange}
+          on:blur={handleChange}
+          class="checkbox"
+        />
+      {:else}
+        <input
+          id={key}
+          name={key}
+          type="text"
+          placeholder=""
+          bind:value={$form[key]}
+          on:change={handleChange}
+          on:blur={handleChange}
+          class="input input-bordered w-full"
+        />
+      {/if}
       {#if $errors[key]}
         <label class="label" for="">
           <span class="label-text-alt">{$errors[key]}</span>
