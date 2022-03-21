@@ -51,23 +51,34 @@ export const RefugeeQuestionnaire: Questionnaire = {
   ],
 };
 
-const hostQuestionnaire: Questionnaire = {
+export const hostQuestionnaire: Questionnaire = {
   questions: [
     {
       name: "name",
       message: "Как вас зовут?",
     },
-
-    /*
-		table.string("name").notNullable();
-		table.string("address").notNullable();
-		table.string("living_env").notNullable();
-		table.string("phone").notNullable();
-		table.boolean("has_animals").notNullable().defaultTo(false);
-		table.boolean("can_animals").notNullable().defaultTo(false);
-		table.boolean("vacant").notNullable().defaultTo(true);
-		table.bigInteger("tg_id").notNullable();
-		table.string("tg_login").notNullable();
-		*/
+    {
+      name: "address",
+      message: "Ваш адрес",
+    },
+    {
+      name: "living_env",
+      message:
+        "Информация о количестве комнат и людей которых вы готовы разместить",
+    },
+    {
+      name: "phone",
+      message: "Контактный телефон",
+    },
+    {
+      name: "can_animals",
+      type: "checkbox",
+      message: "Могу приютить людей с животными",
+    },
+    {
+      name: "has_animals",
+      type: "checkbox",
+      message: "Есть ли у вас животные?",
+    },
   ],
 };
