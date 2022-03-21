@@ -3,9 +3,12 @@
   import * as yup from "yup";
   import { validators } from "$lib/validators/invitee";
   import { RefugeeQuestionnaire } from "../../model";
+  import Spin from "$lib/shared/Spin.svelte";
   import { modelKeyToFormKey } from "$lib/utils/_questionsMapper";
 
   let isLoading: boolean = false;
+  let isError: boolean = false;
+  let message: string;
 
   const initialValues = RefugeeQuestionnaire.questions.reduce(
     (values, question) => {
@@ -24,14 +27,27 @@
     onSubmit: async (values) => {
       isLoading = true;
       console.log("submit", values);
-      const inserted = await fetch("/invitee/add.json", {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log("inserted", inserted);
+      try {
+        const inserted = await fetch("/invitee/add.json", {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (inserted.status >= 200 && inserted.status < 300) {
+          message = "Ваша заявка отправлена";
+        } else {
+          isError = true;
+          message = "Произошла ошибка, заявка не была отправлена";
+        }
+      } catch (e) {
+        console.error("error in invitee add", e);
+        isError = true;
+        message =
+          "Ошибка при отправке заявки на сервер, попробуйте еще раз позже";
+      }
       isLoading = false;
     },
   });
@@ -92,32 +108,32 @@
     class="btn btn-primary my-4"
   >
     Отправить
-    {#if !isLoading}
-      <div
-        class="radial-progress text-secondary ml-4 spin"
-        style="--value:70; --size: 2rem"
-      />
+    {#if isLoading}
+      <Spin size="lg" class="ml-2" />
     {/if}
   </button>
 </form>
 
-<style lang="scss">
-  @property --value {
-    syntax: "<number>"; /* <- defined as type number for the transition to work */
-    initial-value: 0;
-    inherits: false;
-  }
-  @keyframes spin {
-    from {
-      --value: 0;
-    }
-    to {
-      --value: 100;
-    }
-  }
-
-  .spin {
-    animation-duration: 3s;
-    animation-name: spin;
-  }
-</style>
+{#if message}
+  <div
+    class="alert shadow-lg"
+    class:alert-success={!isError}
+    class:alert-danger={isError}
+  >
+    <div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-current flex-shrink-0 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        /></svg
+      >
+      <span>{message}</span>
+    </div>
+  </div>
+{/if}

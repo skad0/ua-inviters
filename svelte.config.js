@@ -1,7 +1,7 @@
 import sveltePreprocess from "svelte-preprocess";
 import node from "@sveltejs/adapter-node";
 import { createRequire } from "module";
-import path from "path";
+import svg from "@poppanator/sveltekit-svg";
 
 const require = createRequire(import.meta.url);
 
@@ -40,6 +40,7 @@ export default {
       ssr: {
         noExternal: Object.keys(pkg.dependencies || {}),
       },
+      plugins: [svg()],
     },
   },
 };
