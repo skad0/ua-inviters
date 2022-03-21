@@ -5,6 +5,8 @@
   import { RefugeeQuestionnaire } from "../../model";
   import { modelKeyToFormKey } from "$lib/utils/_questionsMapper";
 
+  let isLoading: boolean = false;
+
   const initialValues = RefugeeQuestionnaire.questions.reduce(
     (values, question) => {
       values[modelKeyToFormKey(question.name)] =
@@ -20,8 +22,17 @@
     initialValues,
     validationSchema: yup.object().shape(validators),
     onSubmit: async (values) => {
-      console.log("dsdsds");
+      isLoading = true;
       console.log("submit", values);
+      const inserted = await fetch("/invitee/add.json", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("inserted", inserted);
+      isLoading = false;
     },
   });
 
@@ -74,5 +85,39 @@
       {/if}
     </div>
   {/each}
-  <button type="submit" class="btn btn-primary my-4"> Отправить </button>
+  <button
+    disabled={isLoading}
+    class:btn-disabled={isLoading}
+    type="submit"
+    class="btn btn-primary my-4"
+  >
+    Отправить
+    {#if !isLoading}
+      <div
+        class="radial-progress text-secondary ml-4 spin"
+        style="--value:70; --size: 2rem"
+      />
+    {/if}
+  </button>
 </form>
+
+<style lang="scss">
+  @property --value {
+    syntax: "<number>"; /* <- defined as type number for the transition to work */
+    initial-value: 0;
+    inherits: false;
+  }
+  @keyframes spin {
+    from {
+      --value: 0;
+    }
+    to {
+      --value: 100;
+    }
+  }
+
+  .spin {
+    animation-duration: 3s;
+    animation-name: spin;
+  }
+</style>
