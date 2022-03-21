@@ -1,21 +1,23 @@
-const production = !process.env.ROLLUP_WATCH;
 module.exports = {
-  purge: {
-    content: [
-      "./src/**/*.svelte"
-    ],
-    enabled: production,
-  },
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
-  future: {
-    purgeLayersByDefault: true,
-    removeDeprecatedGapUtilities: true,
-  }
-}
+	mode: "jit",
+	content: ["./src/routes/**/*.{svelte,js,ts}"],
+	darkMode: "class", // or 'media' or 'class'
+	theme: {
+		extend: {},
+	},
+	variants: {
+		extend: {},
+	},
+	daisyui: {
+		styled: true,
+		base: true,
+		utils: true,
+		logs: true,
+		rtl: false,
+	},
+	plugins: [require("daisyui")],
+	future: {
+		purgeLayersByDefault: true,
+		removeDeprecatedGapUtilities: true,
+	},
+};
