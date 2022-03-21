@@ -13,7 +13,7 @@
     "@algolia/client-search": "^4.9.1",
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
-    "@playwright/test": "1.19.0",
+    "@playwright/test": "next",
     "@poppanator/sveltekit-svg": "^0.3.1",
     "@sveltejs/adapter-node": "next",
     "@sveltejs/kit": "next",
