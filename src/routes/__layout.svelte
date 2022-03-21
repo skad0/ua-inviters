@@ -1,4 +1,5 @@
 <script>
+  import { page } from "$app/stores";
   import "../app.css";
 </script>
 
@@ -6,6 +7,11 @@
   <div
     class="px-8 py-4 rounded rounded-lg shadow shadow-lg min-h-max box-border bg-base-100"
   >
+    {#if $page.url.pathname !== "/"}
+      <div class="mb-4">
+        <a class="text-sm text-secondary" href="/">← Назад</a>
+      </div>
+    {/if}
     <slot />
   </div>
 </div>
