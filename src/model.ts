@@ -1,5 +1,3 @@
-import { boolean } from "yup";
-
 export interface Questionnaire {
   questions: Question[];
 }
@@ -46,9 +44,30 @@ export const RefugeeQuestionnaire: Questionnaire = {
       type: "checkbox",
       message: "Есть ли у вас животные?",
     },
+    {
+      name: "additional_notes",
+      message: "Дополнительные замечания (аллергии, медицинские состояния)",
+    },
   ],
 };
 
 const hostQuestionnaire: Questionnaire = {
-  questions: [],
+  questions: [
+    {
+      name: "name",
+      message: "Как вас зовут?",
+    },
+
+    /*
+		table.string("name").notNullable();
+		table.string("address").notNullable();
+		table.string("living_env").notNullable();
+		table.string("phone").notNullable();
+		table.boolean("has_animals").notNullable().defaultTo(false);
+		table.boolean("can_animals").notNullable().defaultTo(false);
+		table.boolean("vacant").notNullable().defaultTo(true);
+		table.bigInteger("tg_id").notNullable();
+		table.string("tg_login").notNullable();
+		*/
+  ],
 };
