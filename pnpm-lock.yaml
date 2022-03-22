@@ -4,7 +4,7 @@ specifiers:
   '@algolia/client-search': ^4.9.1
   '@babel/core': ^7.17.8
   '@babel/preset-env': ^7.16.11
-  '@playwright/test': next
+  '@playwright/test': ^1.20.0
   '@poppanator/sveltekit-svg': ^0.3.1
   '@sveltejs/adapter-node': next
   '@sveltejs/kit': next
@@ -36,7 +36,7 @@ devDependencies:
   '@algolia/client-search': 4.13.0
   '@babel/core': 7.17.8
   '@babel/preset-env': 7.16.11_@babel+core@7.17.8
-  '@playwright/test': 1.21.0-alpha-mar-21-2022
+  '@playwright/test': 1.20.0
   '@poppanator/sveltekit-svg': 0.3.1_svelte@3.46.4
   '@sveltejs/adapter-node': 1.0.0-next.73
   '@sveltejs/kit': 1.0.0-next.301_sass@1.49.9+svelte@3.46.4
@@ -1596,8 +1596,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@playwright/test/1.21.0-alpha-mar-21-2022:
-    resolution: {integrity: sha512-oQFYTF+BGqZzQanQiPybDxCFbTVA+ZtjVTgtuedFCZ8Q87iHD086Cknc4jHCuTma/yyskTqqktLZ0PK1vSYSdg==}
+  /@playwright/test/1.20.0:
+    resolution: {integrity: sha512-UpI5HTcgNLckR0kqXqwNvbcIXtRaDxk+hnO0OBwPSjfbBjRfRgAJ2ClA/b30C5E3UW5dJa17zhsy2qrk66l5cg==}
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
@@ -1630,7 +1630,7 @@ packages:
       ms: 2.1.3
       open: 8.4.0
       pirates: 4.0.4
-      playwright-core: 1.21.0-alpha-mar-21-2022
+      playwright-core: 1.20.0
       rimraf: 3.0.2
       source-map-support: 0.4.18
       stack-utils: 2.0.5
@@ -3723,8 +3723,8 @@ packages:
       find-up: 4.1.0
     dev: true
 
-  /playwright-core/1.21.0-alpha-mar-21-2022:
-    resolution: {integrity: sha512-Ty9Clf/a+YPrwRIM0mkqLHcez0bl2NSmIQnZm9qBjbVgkNAevXZ4jeZRXqG/rFlH0KkzDN1qJyvhHgeJCwqqxg==}
+  /playwright-core/1.20.0:
+    resolution: {integrity: sha512-d25IRcdooS278Cijlp8J8A5fLQZ+/aY3dKRJvgX5yjXA69N0huIUdnh3xXSgn+LsQ9DCNmB7Ngof3eY630jgdA==}
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
