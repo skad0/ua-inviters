@@ -10,3 +10,8 @@ package-lock.json
 .svelte-kit
 postgres-data
 dist
+tests-out
+test-results/
+playwright-report/
+test-results/
+playwright-report/

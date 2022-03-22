@@ -29,5 +29,13 @@
 		},
 		"outDir": "dist"
 	},
-	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte", "knexfile.ts"]
+	"include": [
+    "test/**/*.ts",
+    "test/**/*.js",
+    "src/**/*.d.ts", 
+    "src/**/*.js", 
+    "src/**/*.ts", 
+    "src/**/*.svelte", 
+    "knexfile.ts"
+  ]
 }

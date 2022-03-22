@@ -1,45 +1,33 @@
-![image](https://user-images.githubusercontent.com/67542663/113436983-68438400-9403-11eb-928f-659073d600de.png)
+# install
 
-The ultimate SvelteKit starter template which includes configuraion for
-- [TailwindCSS](https://tailwindcss.com),
-- [Storybook](https://storybook.js.org),
-- [TypeScript](https://typescriptlang.org/),
-- [Sass](https://sass-lang.com/)
-and more!
-
-# Usage
-- Use the template using github or clone the repository
-```
-git clone https://github.com/tejasag/sveltetron-9000
-```
-
-- Install the libraries
 ```js
-// with yarn
-yarn 
-// or with npm
-npm i
-// or with pnpm
 pnpm install
 ```
 
 - To run the Svelte server
 ```js
-yarn dev 
-// or
-npm run dev
+pnpm dev
 ```
 
-- To run the Storybook server
-```js
-yarn storybook
-// or
-npm run storybook
+# e2e
+
+This package run tests using playwright framwork(https://playwright.dev/).
+Playwright ueses browsers to run tests
+
+## Getting started
+
+If you run it first time
+
+Install framework playwright
+
+```
+ pnpm playwright install
 ```
 
-## Having troubles?
-Open an issue and I'll try to help as soon as I can!
+Install playwright dependencies to system
 
----
+```
+ pnpm playwright install-deps
+```
 
-Copyright 2021-present Tejas Agarwal
+Now you can test!
